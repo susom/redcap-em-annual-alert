@@ -1,0 +1,131 @@
+{
+	"name": "BirthdayGreeting",
+
+	"namespace": "Stanford\\BirthdayGreeting",
+
+	"description": "EM to send birthday greetings",
+
+	"documentation": "README.md",
+
+	"authors": [
+        {
+            "name": "Jae Lee",
+            "email": "jael@stanford.edu",
+            "institution": "Stanford University"
+        }
+	],
+    "framework-version": 5,
+
+	"permissions": [
+    ],
+    "crons": [
+      {
+        "cron_name": "em_birthday_greeting",
+        "cron_description": "Cron to send birthday greeting",
+        "method": "cronGreeting",
+        "cron_frequency": "3600",
+        "cron_max_run_time": "3000"
+      }
+    ],
+
+	"enable-every-page-hooks-on-system-pages": false,
+
+	"links": {
+		"project": [
+            {
+                "name": "Test",
+                "icon": "gear",
+                "url": "pages/test.php"
+            }
+		],
+		"control-center": [
+
+		]
+	},
+
+	"no-auth-pages": [
+        "pages/renderHtml"
+	],
+
+	"project-settings": [
+        {
+            "key": "greeting",
+            "name": "<b>Define settings for annual greeting</b>",
+            "required": true,
+            "type": "sub_settings",
+            "repeatable": true,
+            "sub_settings": [
+              {
+                "key": "enable-greeting",
+                "name": "<div class='alert alert-success'><b>Enable Greeting</b><br>Must be checked for this greeting to be sent</div>",
+                "required": false,
+                "type": "checkbox"
+              },
+              {
+                "key": "template-title",
+                "name": "<b>Template Alert Title</b><br>This is the title of the Alert. (The name after Alert #X: --title--)",
+                "required": true,
+                "type": "text"
+              },
+              {
+                "key": "birthday-field-event-name",
+                "name": "<b>Event Name</b><br>Specify the event where the birthday fields (date and email) are stored",
+                "required": true,
+                "type": "event-list"
+              },
+              {
+                "key": "birthday-field",
+                "name": "<b>Birthday Field</b><br>Specify a field in the record where the birthdate is stored",
+                "required": true,
+                "type": "field-list"
+               },
+              {
+                "key": "email-field",
+                "name": "<b>Email Field</b><br>Specify a field in the record where the email is stored",
+                "required": true,
+                "type": "field-list"
+              },
+              {
+                "key": "send-time",
+                "name": "<b>Send Time</b><br>Hour of the day (0-24) to send invitation (e.g. 18 for 6PM)",
+                "required": false,
+                "type": "number"
+              },
+              {
+                "key": "sent-ts-field",
+                "name": "<b>Sent Timestamp Field</b><br>Specify a field in the record where the sent timestamp can be stored",
+                "required": false,
+                "type": "field-list"
+              },
+              {
+                "key": "stop-logic-field",
+                "name": "<b>Stop Logic Field</b><br>This logic will be evaluated to determine whether the birthday greeting will sent for this record. For example, [do_not_send(1)]='1'",
+                "required": false,
+                "type": "textarea"
+              }
+            ]
+        },
+		{
+			"key": "enable-project-debug-logging",
+			"name": "<b>Enable Debug Logging</b><br><i>(optional)</i> Requires installation and configuration of emLogger",
+			"required": false,
+			"type": "checkbox"
+		}
+    ],
+
+	"system-settings": [
+		{
+			"key": "enable-system-debug-logging",
+			"name": "<b>Enable Debug Logging (system-wide)</b><i>(optional)</i> Requires installation and configuration of emLogger",
+			"required": false,
+			"type": "checkbox"
+		}
+	],
+
+	"compatibility": {
+		"php-version-min": "",
+		"php-version-max": "",
+		"redcap-version-min": "",
+		"redcap-version-max": ""
+	}
+}

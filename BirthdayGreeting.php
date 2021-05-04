@@ -16,10 +16,6 @@ class BirthdayGreeting extends \ExternalModules\AbstractExternalModule {
 
     use emLoggerTrait;
 
-    public $template;
-    public $instance;
-
-
 
     /*******************************************************************************************************************/
     /* CRON METHODS                                                                                                    */
@@ -83,7 +79,6 @@ class BirthdayGreeting extends \ExternalModules\AbstractExternalModule {
     [template-title] => TEMPLATE_BirthdayGreeting
     [birthday-field] => birthday
     [birthday-field-event-name] => event_1_arm_1
-    [email-field] => email
     [send-time] => 14
     [sent-ts-field] => sent_timestamp
     [stop-logic-field] =>
@@ -93,20 +88,18 @@ class BirthdayGreeting extends \ExternalModules\AbstractExternalModule {
      * @param $subsettings
      */
     public function sendGreeting($pid, $subsettings) {
-        //set project context for this pid
+        //set project context for this pid; this does not work
         $original_pid = $_GET['pid'];
         $_GET['pid']  = $pid;
+
         $proj         = new Project($pid);
 
         //REDCap methods don't work event with faked project context?
         //rec_id_field = REDCap::getRecordIdField();
         $rec_id_field = $proj->table_pk;
 
-
-
-
         $this->emDebug("Sending Greetings for $pid");
-        $this->emDebug(" with config", $subsettings);
+        //$this->emDebug(" with config", $subsettings);
 
         $template_title = $subsettings['template-title'];
         $event_id       = $subsettings['birthday-field-event-name'];
@@ -114,7 +107,7 @@ class BirthdayGreeting extends \ExternalModules\AbstractExternalModule {
         $ts_field       = $subsettings['sent-ts-field'];
 
         //check EM config
-        if (empty($template_title) || (empty($subsettings['birthday-field']) || (empty($subsettings['email-field'])))) {
+        if (empty($template_title) || (empty($subsettings['birthday-field']) )) {
             throw new EMConfigurationException('Alert EM not set correctly.');
         }
 
@@ -122,7 +115,6 @@ class BirthdayGreeting extends \ExternalModules\AbstractExternalModule {
         $redcap_fields = array(
             $rec_id_field,
             $subsettings['birthday-field'],
-            $subsettings['email-field'],
             $subsettings['sent-ts-field']
         );
 
@@ -134,8 +126,8 @@ class BirthdayGreeting extends \ExternalModules\AbstractExternalModule {
         );
 
         //this does not work???
-        $q = REDCap::getData($pid, $params);
-        $bday_data = json_decode($q, true); //this is null!?
+        //$q = REDCap::getData($pid, $params);
+        //$bday_data = json_decode($q, true); //this is null!?
 
         $s = REDCap::getData($pid, 'json', null, $redcap_fields, $event_id);
         $bday_data = json_decode($s, true);
@@ -147,8 +139,8 @@ class BirthdayGreeting extends \ExternalModules\AbstractExternalModule {
             $record_id = $v[$rec_id_field];
 
             //check record fields
-            if ((empty($v[$subsettings['birthday-field']])) || (empty($v[$subsettings['email-field']]))) {
-                $msg = "Missing birthday or email in record $record_id";
+            if ((empty($v[$subsettings['birthday-field']]))) {
+                $msg = "Missing birthday in record $record_id";
                 $this->emError($msg);
                 REDCap::logEvent(
                     "Error in BirthdayGreeting EM ",  //action
@@ -158,23 +150,19 @@ class BirthdayGreeting extends \ExternalModules\AbstractExternalModule {
                 continue;
             }
 
-            //is it the birthday today?
-
+            //check if it is the birthday today
             $birthday = new DateTime($v[$subsettings['birthday-field']]);
 
-            $this->emDebug("Record id field is $rec_id_field and record id is $record_id and bday if " );
+            $this->emDebug("Record id field is $rec_id_field and record id is $record_id and bday is ".$birthday->format('Y-m-d') );
 
             if ($birthday->format("m-d") == $today->format("m-d")) {
                 //today is the birthday
+
+                //make sure from timestamp that it has not already been sent.
                 if (isset($ts_field)) {
                     $timestamp = empty($v[$ts_field]) ? null : new DateTime($v[$ts_field]);
 
-
-
                     if (isset($timestamp) && ($timestamp->format('Y-m-d')) == ($today->format('Y-m-d'))) {
-                        $this->emDebug("Timestamp is ". $timestamp->format('Y-m-d'));
-                        $this->emDebug("Today is ". $today->format('Y-m-d'));
-
                         $this->emDebug("Alert has already been sent today for record id $record_id.  Not sending any more emails");
                         continue;
                     }
@@ -200,7 +188,7 @@ class BirthdayGreeting extends \ExternalModules\AbstractExternalModule {
                     $status = $this->sendTemplateAlert($pid, $record_id, $event_id, $repeat_instance, $instrument, $template_title);
                 } catch (EMConfigurationException $ece) {
                     $this->emError("Alert not found. Check the EM or the Alerts");
-                    //TODO log event
+                    //log event
                     //$description, $changes_made="", $sql="", $record=null, $event_id=null, $project_id=null
                     REDCap::logEvent(
                         "EM Config Error in BirthdayGreeting EM ",  //action
@@ -213,7 +201,7 @@ class BirthdayGreeting extends \ExternalModules\AbstractExternalModule {
                 }
 
                 if ($status) {
-                    //Tlog event
+                    //log event
                     REDCap::logEvent(
                         "Email sent from BirthdayGreeting EM ",  //action
                         "Birthday greeting was sent for $record_id using $template_title .",
@@ -224,7 +212,7 @@ class BirthdayGreeting extends \ExternalModules\AbstractExternalModule {
                     );
 
 
-                    //TODO save timestamp
+                    //save timestamp
                     if (isset($ts_field)) {
                         $save_ts_data = array(
                             'record_id'         => $record_id,
@@ -247,8 +235,6 @@ class BirthdayGreeting extends \ExternalModules\AbstractExternalModule {
 
                     $this->emError("unable to send notification");
                 }
-
-
 
             }
 

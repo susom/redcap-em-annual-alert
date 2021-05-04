@@ -13,7 +13,6 @@ $settings = array(
     'template-title' => 'TEMPLATE_BirthdayGreeting',
 'birthday-field' => 'birthday',
 'birthday-field-event-name' => '2142',
-'email-field' => 'email',
 'send-time' => 9,
     'sent-ts-field' => 'sent_timestamp',
 'stop-logic-field' =>null

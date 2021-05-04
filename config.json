@@ -69,7 +69,7 @@
               },
               {
                 "key": "birthday-field-event-name",
-                "name": "<b>Event Name</b><br>Specify the event where the birthday fields (date and email) are stored",
+                "name": "<b>Event Name</b><br>Specify the event where the birthday field is stored",
                 "required": true,
                 "type": "event-list"
               },
@@ -79,12 +79,6 @@
                 "required": true,
                 "type": "field-list"
                },
-              {
-                "key": "email-field",
-                "name": "<b>Email Field</b><br>Specify a field in the record where the email is stored",
-                "required": true,
-                "type": "field-list"
-              },
               {
                 "key": "send-time",
                 "name": "<b>Send Time</b><br>Hour of the day (0-24) to send invitation (e.g. 18 for 6PM)",

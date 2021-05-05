@@ -1,6 +1,6 @@
 <?php
-namespace Stanford\BirthdayGreeting;
-/** @var BirthdayGreeting $this */
+namespace Stanford\AnnualAlert;
+/** @var AnnualAlert $this */
 
 trait emLoggerTrait
 {

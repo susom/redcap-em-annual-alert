@@ -1,7 +1,7 @@
 {
-	"name": "BirthdayGreeting",
+	"name": "AnnualAlert",
 
-	"namespace": "Stanford\\BirthdayGreeting",
+	"namespace": "Stanford\\AnnualAlert",
 
 	"description": "EM to send birthday greetings",
 
@@ -17,6 +17,7 @@
     "framework-version": 5,
 
 	"permissions": [
+      "redcap_every_page_top"
     ],
     "crons": [
       {

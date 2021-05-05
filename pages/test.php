@@ -1,6 +1,6 @@
 <?php
 namespace Stanford\BirthdayGreeting;
-/** @var BirthdayGreeting $module */
+/** @var AnnualAlert $module */
 
 
 echo "testing BirthdayGreeting";

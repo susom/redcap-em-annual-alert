@@ -1,6 +1,6 @@
 <?php
 
-namespace Stanford\BirthdayGreeting;
+namespace Stanford\AnnualAlert;
 
 use Exception;
 

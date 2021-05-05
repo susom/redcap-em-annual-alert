@@ -33,11 +33,11 @@ class AnnualAlert extends AbstractExternalModule {
         //$enabled = ExternalModules::getEnabledProjects($this->PREFIX);
         $enabled_projects = $this->getProjectsWithModuleEnabled();
 
-
         $current_hour = date('H');
         //3. Loop through EM instances
         //while($proj = $enabled->fetch_assoc()) {
         foreach ($enabled_projects as $project_id) {
+            $this->emDebug("Starting annual alert check for $project_id");
 
             //2. Load configs
             $instances = $this->getSubSettings('greeting', $project_id);
@@ -48,7 +48,7 @@ class AnnualAlert extends AbstractExternalModule {
                 if ($instance['enable-greeting'] !== true) continue;
 
                 // Make sure the hour is correct
-                if ($instance['send-time'] !== $current_hour) continue;
+                if ((int)$instance['send-time'] !== (int)$current_hour) continue;
 
                 //send greetings
                 try {

@@ -199,23 +199,17 @@ class AnnualAlert extends AbstractExternalModule {
                         $project_id
                     );
 
-
                     //save timestamp
                     if (!empty($ts_field)) {
-                        $save_ts_data = array(
-                            'record_id'         => $record_id,
-                            'redcap_event_name' => $proj->getUniqueEventNames($event_id), //REDCap::getEventNames(true, false, $event_id),
-                            $ts_field           => $today->format('Y-m-d')
-                        );
-                        $q = REDCap::saveData($project_id, 'json', json_encode(array($save_ts_data)));
+                        //save as array
+                        $save_ts_data = array();
+                        $save_ts_data[$record_id][$event_id][$ts_field] = $today->format('Y-m-d');
+                        $return = REDCap::saveData($project_id, 'array', $save_ts_data, 'overwrite');
 
-                        //todo save as array
-                        //
-                        if (!empty($q['errors'])) {
-                            $this->emError("Error saving timestamp for record $record_id with value: $ts_field", $q);
+                        if (!empty($return['errors'])) {
+                            $this->emError("Error saving timestamp for record $record_id with $ts_field value:  ". $today->format('Y-m-d'), $return);
                         }
                     }
-
                 } else {
                     //log fail event
                     REDCap::logEvent(

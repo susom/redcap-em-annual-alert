@@ -21,7 +21,7 @@
     ],
     "crons": [
       {
-        "cron_name": "em_birthday_greeting",
+        "cron_name": "em_annual_alert",
         "cron_description": "Cron to send birthday greeting",
         "method": "cronGreeting",
         "cron_frequency": "3600",

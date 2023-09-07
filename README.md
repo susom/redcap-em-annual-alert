@@ -1,6 +1,6 @@
 # Annual Alert
-This EM will send an annual greeting.
-The outgoing message uses the Alert & Notification template.
+This EM will send an annual greeting on a selected date field.
+The outgoing message uses an Alert & Notification alert as a template form.
 
 ## Set up
 * Create an Alert using conditional logic, but set it to FALSE so that it never gets triggered.

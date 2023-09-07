@@ -3,7 +3,7 @@
 
 	"namespace": "Stanford\\AnnualAlert",
 
-	"description": "EM to send birthday greetings",
+	"description": "EM to send annual greetings",
 
 	"documentation": "README.md",
 
@@ -22,7 +22,7 @@
     "crons": [
       {
         "cron_name": "em_annual_alert",
-        "cron_description": "Cron to send birthday greeting",
+        "cron_description": "Cron to send annual alert",
         "method": "cronGreeting",
         "cron_frequency": "3600",
         "cron_max_run_time": "3000"
@@ -70,13 +70,13 @@
               },
               {
                 "key": "birthday-field-event-name",
-                "name": "<b>Event Name</b><br>Specify the event where the birthday field is stored",
+                "name": "<b>Event Name</b><br>Specify the event where the annual field is stored",
                 "required": true,
                 "type": "event-list"
               },
               {
                 "key": "birthday-field",
-                "name": "<b>Birthday Field</b><br>Specify a field in the record where the birthdate is stored",
+                "name": "<b>Birthday Field</b><br>Specify a field in the record where the annual field is stored",
                 "required": true,
                 "type": "field-list"
                },
@@ -94,7 +94,7 @@
               },
               {
                 "key": "stop-logic-field",
-                "name": "<b>Stop Logic Field</b><br>This logic will be evaluated to determine whether the birthday greeting will sent for this record. For example, [do_not_send(1)]='1'",
+                "name": "<b>Stop Logic Field</b><br>This logic will be evaluated to determine whether the annual field will sent for this record. <br>If logic is false, then the email will not send. For example, [do_not_send(1)]<>'1'",
                 "required": false,
                 "type": "textarea"
               }

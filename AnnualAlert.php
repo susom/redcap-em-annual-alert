@@ -26,7 +26,7 @@ class AnnualAlert extends AbstractExternalModule {
 
     public function cronGreeting() {
 
-        $this->emDebug("Starting send cron for birthday greetings " . $this->PREFIX);
+        $this->emDebug("Starting send cron for annual greetings " . $this->PREFIX);
 
 
         //1. Get all projects
